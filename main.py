@@ -1,13 +1,6 @@
 import pdfquery
 import pandas as pd
 
-PDF_FILE = '11140-00-PLT1-R00.pdf'
-
-pdf = pdfquery.PDFQuery(PDF_FILE)
-pdf.load()
-pdf.tree.write('pdfXML.txt', pretty_print = True)
-
-
 def pdfscrape(pdf):
     # Extraemos cada campo de manera individual según las coordenadas que este tenga en la hoja del pdf
     elemento            = pdf.pq('LTTextLineHorizontal:overlaps_bbox("109.12, 808.925, 127.798, 816.484")').text()
@@ -27,7 +20,7 @@ def pdfscrape(pdf):
                          'elemento': elemento,
                          'h': h,
                          'tipo': tipo,
-                         'medida': mediana,
+                         'medida': medida,
                          'cantidad': cantidad,
                          'volumen': volumen,
                          'total_barras': total_barras,
@@ -36,4 +29,15 @@ def pdfscrape(pdf):
                          'peso_total_insertos': peso_total_insertos,
                          'peso_total_armadura': peso_total_armadura,
                        }, index=[0])
+
+    print(page)
     return(page)
+
+
+PDF_FILE = '11140-00-PLT1-R00.pdf'
+
+pdf = pdfquery.PDFQuery(PDF_FILE)
+pdf.load()
+#pdf.tree.write('pdfXML.txt', pretty_print = True)
+
+pdfscrape(pdf)
